@@ -14,9 +14,11 @@ class TeamsController extends AbstractController
             'code' => '1',
             'name' => 'KC Chiefs',
             'city' => 'Kansas City',
+            'division' => 'NFC West',
             'logo' => 'https://static.www.nfl.com/image/private/f_auto/league/u9fltoslqdsyao8cpm0k',
             'established' => 1920,
-            'headCoach' => 'Jonathan Gannon'
+            'headCoach' => 'Jonathan Gannon',
+            'owner' => 'Prueba'
         ];
         return $this->render('teams/showTeams.html.twig', ['team' => $team]);
     }
