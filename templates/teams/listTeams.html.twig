@@ -1,0 +1,23 @@
+{% extends 'teams/baseTeams.html.twig' %} {% block contenido %}
+{% for mensaje in app.flashes('success') %}
+<p>{{ mensaje }}</p>
+{% endfor %}
+<h2>Listado de Equipos</h2>
+<div class="row row-cols-1 row-cols-md-2">
+  {% for team in teams %}
+  <div class="col mb-4">
+    <div class="card" style="width: 18rem">
+      <img src="{{ team.logo }}" class="card-img-top" />
+      <div class="card-body">
+        <h5 class="card-title">{{ team.name }}</h5>
+        <p class="card-text">{{ team.code }}</p>
+        {# <a href="{{ path('showPokemon',{id:pokemon.id}) }}" class="btn btn-primary">Más Info</a>
+        <a href="{{ path('editPokemon',{id:pokemon.id}) }}" class="btn btn-primary">Editar</a>
+        <a href="{{ path('deletePokemon',{id:pokemon.id}) }}" class="btn btn-primary">Borrar</a> #}
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock %}
