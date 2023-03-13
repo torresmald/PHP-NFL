@@ -11,9 +11,9 @@
       <div class="card-body">
         <h5 class="card-title">{{ team.name }}</h5>
         <p class="card-text">{{ team.code }}</p>
-        {# <a href="{{ path('showPokemon',{id:pokemon.id}) }}" class="btn btn-primary">Más Info</a>
-        <a href="{{ path('editPokemon',{id:pokemon.id}) }}" class="btn btn-primary">Editar</a>
-        <a href="{{ path('deletePokemon',{id:pokemon.id}) }}" class="btn btn-primary">Borrar</a> #}
+        <a href="{{ path('showTeam', {id:team.code}) }}" class="btn btn-primary">Más Info</a>
+        {# <a href="{{ path('editPokemon',{id:pokemon.id}) }}" class="btn btn-primary">Editar</a> #}
+        {# <a href="{{ path('deletePokemon',{id:pokemon.id}) }}" class="btn btn-primary">Borrar</a> #}
       </div>
     </div>
   </div>
