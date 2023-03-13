@@ -1,6 +1,6 @@
 {% extends 'teams/baseTeams.html.twig' %} {% block contenido %}
-{% for mensaje in app.flashes('success') %}
-<p>{{ mensaje }}</p>
+{% for message in app.flashes('success') %}
+<p>{{ message }}</p>
 {% endfor %}
 <h2>Listado de Equipos</h2>
 <div class="row row-cols-1 row-cols-md-2">
@@ -10,8 +10,8 @@
       <img src="{{ team.logo }}" class="card-img-top" />
       <div class="card-body">
         <h5 class="card-title">{{ team.name }}</h5>
-        <p class="card-text">{{ team.code }}</p>
-        <a href="{{ path('showTeam', {id:team.code}) }}" class="btn btn-primary">Más Info</a>
+        <p class="card-text">{{ team.id }}</p>
+        <a href="{{ path('showTeam', {id:team.id}) }}" class="btn btn-primary">Más Info</a>
         {# <a href="{{ path('editPokemon',{id:pokemon.id}) }}" class="btn btn-primary">Editar</a> #}
         {# <a href="{{ path('deletePokemon',{id:pokemon.id}) }}" class="btn btn-primary">Borrar</a> #}
       </div>

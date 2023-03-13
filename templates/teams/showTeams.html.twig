@@ -4,7 +4,7 @@
   <div class="container">
     <div class="row">
       <div class="col text-center">
-        <h2>{{ team.name }} Nº {{ team.code }}</h2>
+        <h2>{{ team.name }} Nº {{ team.id }}</h2>
       </div>
     </div>
     <div class="row">
@@ -13,11 +13,19 @@
       </div>
       <div class="col">
         <div class="row">
+          <div class="col">{{ team.city }}</div>
           <div class="col">{{ team.headCoach }}</div>
+          <div class="col">{{ team.owner }}</div>
+          <div class="col">{{ team.division }}</div>
+          <div class="col">{{ team.established }}</div>
         </div>
-        <div class="row">
-          <ul></ul>
-        </div>
+         <div class="row">
+              <ul>
+                {% for stadium in team.stadiums %}
+                <li>{{ stadium.name }}</li>
+                {% endfor %}
+              </ul>
+            </div>
       </div>
     </div>
   </div>

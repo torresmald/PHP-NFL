@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TeamRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TeamRepository::class)]
@@ -36,6 +38,16 @@ class Team
 
     #[ORM\Column(length: 255)]
     private ?string $owner = null;
+
+    #[ORM\ManyToMany(targetEntity: Stadium::class, inversedBy: 'teams')]
+    private Collection $stadiums;
+
+    public function __construct()
+    {
+        $this->stadiums = new ArrayCollection();
+    }
+
+
 
     public function getId(): ?int
     {
@@ -134,6 +146,30 @@ class Team
     public function setOwner(string $owner): self
     {
         $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Stadium>
+     */
+    public function getStadiums(): Collection
+    {
+        return $this->stadiums;
+    }
+
+    public function addStadium(Stadium $stadium): self
+    {
+        if (!$this->stadiums->contains($stadium)) {
+            $this->stadiums->add($stadium);
+        }
+
+        return $this;
+    }
+
+    public function removeStadium(Stadium $stadium): self
+    {
+        $this->stadiums->removeElement($stadium);
 
         return $this;
     }

@@ -2,9 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Stadium;
 use App\Entity\Team;
+use App\Form\TeamType;
+use Doctrine\Migrations\Version\State;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -349,6 +353,135 @@ class TeamsController extends AbstractController
         $titans->setHeadCoach('Mike Vrabel');
         $titans->setOwner('Amy Adams Strunk');
 
+
+        $bearsStadium = new Stadium();
+        $bearsStadium -> setName('Soldier Field');
+        $bears-> addStadium($bearsStadium);
+      
+        $bengalsStadium = new Stadium();
+        $bengalsStadium-> setName('Paycor Stadium');
+        $bengals->addStadium($bengalsStadium);
+
+        $billsStadium = new Stadium();
+        $billsStadium-> setName('Highmark Stadium');
+        $bills->addStadium($billsStadium);
+
+        $broncosStadium = new Stadium();
+        $broncosStadium->setName('Empower Field at Mile High');
+        $broncos->addStadium($broncosStadium);
+
+        $brownsStadium = new Stadium();
+        $brownsStadium-> setName('FirstEnergy Stadium');
+        $browns->addStadium($brownsStadium);
+
+        $cardinalsStadium = new Stadium();
+        $cardinalsStadium->setName('State Farm Stadium');
+        $cardinals->addStadium($cardinalsStadium);
+
+        $chargersStadium = new Stadium();
+        $chargersStadium->setName('SoFi Stadium');
+        $chargers->addStadium($chargersStadium);
+
+        $chiefsStadium = new Stadium();
+        $chiefsStadium->setName('Arrowhead Stadium');
+        $chiefs->addStadium($chiefsStadium);
+
+        $coltsStadium = new Stadium();
+        $coltsStadium->setName('Lucas Oil Stadium');
+        $colts->addStadium($coltsStadium);
+
+        $cowboysStadium = new Stadium();
+        $cowboysStadium->setName('AT&T Stadium');
+        $cowboys->addStadium($cowboysStadium);
+
+        $dolphinsStadium = new Stadium();
+        $dolphinsStadium-> setName('Hard Rock Stadium');
+        $dolphins->addStadium($dolphinsStadium);
+
+        $eaglesStadium = new Stadium();
+        $eaglesStadium->setName('Lincoln Financial Field');
+        $eagles->addStadium($eaglesStadium);
+
+        $falconsStadium = new Stadium();
+        $falconsStadium->setName('Mercedes-Benz Stadium');
+        $falcons->addStadium($falconsStadium);
+
+        $giantsStadium = new Stadium();
+        $giantsStadium->setName('MetLife Stadium');
+        $giants->addStadium($giantsStadium);
+
+        $jaguarsStadium = new Stadium();
+        $jaguarsStadium->setName('TIAA Bank Field');
+        $jaguars->addStadium($jaguarsStadium);
+
+        $jetsStadium = new Stadium();
+        $jetsStadium->setName('MetLife Stadium');
+        $jets->addStadium($jetsStadium);
+
+        $lionsStadium = new Stadium();
+        $lionsStadium->setName('Ford Field');
+        $lions->addStadium($lionsStadium);
+
+        $packersStadium = new Stadium();
+        $packersStadium->setName('Lambeau Field');
+        $packers->addStadium($packersStadium);
+
+        $panthersStadium = new Stadium();
+        $panthersStadium->setName('Bank of America Stadium');
+        $panthers->addStadium($panthersStadium);
+
+        $patriotsStadium = new Stadium();
+        $patriotsStadium->setName('Gillette Stadium');
+        $patriots->addStadium($patriotsStadium);
+
+        $raidersStadium = new Stadium();
+        $raidersStadium->setName('Allegiant Stadium');
+        $raiders->addStadium($raidersStadium);
+
+        $ramsStadium = new Stadium();
+        $ramsStadium->setName('SoFi Stadium');
+        $rams->addStadium($ramsStadium);
+
+        $ravensStadium = new Stadium();
+        $ravensStadium->setName('M&T Bank Stadium');
+        $ravens->addStadium($ravensStadium);
+
+        $saintsStadium = new Stadium();
+        $saintsStadium->setName('Caesars Superdome');
+        $saints->addStadium($saintsStadium);
+
+        $seahawsStadium = new Stadium();
+        $seahawsStadium->setName('Lumen Field');
+        $seahaws->addStadium($seahawsStadium);
+
+        $sf49Stadium = new Stadium();
+        $sf49Stadium->setName("Levi's Stadium");
+        $sf49->addStadium($sf49Stadium);
+
+        $steelersStadium = new Stadium();
+        $steelersStadium->setName('Acrisure Stadium');
+        $steelers->addStadium($steelersStadium);
+
+        $tampaStadium = new Stadium();
+        $tampaStadium->setName('Raymond James Stadium');
+        $tampa->addStadium($tampaStadium);
+
+        $texansStadium = new Stadium();
+        $texansStadium->setName('NRG Stadium');
+        $texans->addStadium($texansStadium);
+
+        $titansStadium = new Stadium();
+        $titansStadium->setName('Nissan Stadium');
+        $titans->addStadium($titansStadium);
+
+        $vikingsStadium = new Stadium();
+        $vikingsStadium->setName('U.S. Bank Stadium');
+        $vikings->addStadium($vikingsStadium);
+
+        $washingtonStadium = new Stadium();
+        $washingtonStadium->setName('FedExField');
+        $washington->addStadium($washingtonStadium);
+
         $doctrine->persist($bears);
         $doctrine->persist($bengals);
         $doctrine->persist($bills);
@@ -382,8 +515,57 @@ class TeamsController extends AbstractController
         $doctrine->persist($vikings);
         $doctrine->persist($washington);
 
+        $doctrine->persist($bearsStadium);
+        $doctrine->persist($bengalsStadium);
+        $doctrine->persist($billsStadium);
+        $doctrine->persist($broncosStadium);
+        $doctrine->persist($brownsStadium);
+        $doctrine->persist($cardinalsStadium);
+        $doctrine->persist($chargersStadium);
+        $doctrine->persist($chiefsStadium);
+        $doctrine->persist($coltsStadium);
+        $doctrine->persist($cowboysStadium);
+        $doctrine->persist($dolphinsStadium);
+        $doctrine->persist($eaglesStadium);
+        $doctrine->persist($falconsStadium);
+        $doctrine->persist($giantsStadium);
+        $doctrine->persist($jaguarsStadium);
+        $doctrine->persist($jetsStadium);
+        $doctrine->persist($lionsStadium);
+        $doctrine->persist($packersStadium);
+        $doctrine->persist($panthersStadium);
+        $doctrine->persist($patriotsStadium);
+        $doctrine->persist($raidersStadium);
+        $doctrine->persist($ramsStadium);
+        $doctrine->persist($ravensStadium);
+        $doctrine->persist($saintsStadium);
+        $doctrine->persist($seahawsStadium);
+        $doctrine->persist($sf49Stadium);
+        $doctrine->persist($steelersStadium);
+        $doctrine->persist($tampaStadium);
+        $doctrine->persist($texansStadium);
+        $doctrine->persist($titansStadium);
+        $doctrine->persist($vikingsStadium);
+        $doctrine->persist($washingtonStadium);
+
         $doctrine->flush();
 
         return new Response('Equipos insertados');
+    }
+
+    #[Route('/insert/team', name:'insertTeam')]
+    public function insertTeam(Request $request, EntityManagerInterface $doctrine){
+        $form = $this->createForm(TeamType::class);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $team = $form->getData();
+            $doctrine->persist($team);
+            $doctrine->flush();
+            $this->addFlash('success','Team created succesfully');
+            return $this->redirectToRoute('listTeams');
+        }
+        return $this->renderForm('teams/createTeams.html.twig', [
+            'form' => $form
+        ]);
     }
 }
