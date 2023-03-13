@@ -5,16 +5,17 @@ namespace App\Controller;
 use App\Entity\Stadium;
 use App\Entity\Team;
 use App\Form\TeamType;
-use Doctrine\Migrations\Version\State;
+use App\Manager\TeamManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TeamsController extends AbstractController
 {
-    #[Route('/team/{id}', name:'showTeam')]
+    #[Route('/team/{id}', name: 'showTeam')]
     public function showTeam(EntityManagerInterface $doctrine, $id)
     {
         $repository = $doctrine->getRepository(Team::class);
@@ -29,6 +30,8 @@ class TeamsController extends AbstractController
 
         return $this->render('teams/listTeams.html.twig', ['teams' => $teams]);
     }
+    
+    #[IsGranted('ROLE_ADMIN')]
     #[Route('/insert/teams', name: 'insertTeams')]
     public function newTeam(EntityManagerInterface $doctrine)
     {
@@ -355,15 +358,15 @@ class TeamsController extends AbstractController
 
 
         $bearsStadium = new Stadium();
-        $bearsStadium -> setName('Soldier Field');
-        $bears-> addStadium($bearsStadium);
-      
+        $bearsStadium->setName('Soldier Field');
+        $bears->addStadium($bearsStadium);
+
         $bengalsStadium = new Stadium();
-        $bengalsStadium-> setName('Paycor Stadium');
+        $bengalsStadium->setName('Paycor Stadium');
         $bengals->addStadium($bengalsStadium);
 
         $billsStadium = new Stadium();
-        $billsStadium-> setName('Highmark Stadium');
+        $billsStadium->setName('Highmark Stadium');
         $bills->addStadium($billsStadium);
 
         $broncosStadium = new Stadium();
@@ -371,7 +374,7 @@ class TeamsController extends AbstractController
         $broncos->addStadium($broncosStadium);
 
         $brownsStadium = new Stadium();
-        $brownsStadium-> setName('FirstEnergy Stadium');
+        $brownsStadium->setName('FirstEnergy Stadium');
         $browns->addStadium($brownsStadium);
 
         $cardinalsStadium = new Stadium();
@@ -395,7 +398,7 @@ class TeamsController extends AbstractController
         $cowboys->addStadium($cowboysStadium);
 
         $dolphinsStadium = new Stadium();
-        $dolphinsStadium-> setName('Hard Rock Stadium');
+        $dolphinsStadium->setName('Hard Rock Stadium');
         $dolphins->addStadium($dolphinsStadium);
 
         $eaglesStadium = new Stadium();
@@ -553,19 +556,58 @@ class TeamsController extends AbstractController
         return new Response('Equipos insertados');
     }
 
-    #[Route('/insert/team', name:'insertTeam')]
-    public function insertTeam(Request $request, EntityManagerInterface $doctrine){
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/insert/team', name: 'insertTeam')]
+    public function insertTeam(Request $request, EntityManagerInterface $doctrine, TeamManager $manager)
+    {
         $form = $this->createForm(TeamType::class);
         $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $team = $form->getData();
+            $fileImage = $form->get('logoImage')->getData();
+            if ($fileImage) {
+                $teamImage = $manager->load($fileImage, $this->getParameter('kernel.project_dir') . '/public/asset/image');
+                $team->setLogo('/asset/image/' . $teamImage);
+            }
             $doctrine->persist($team);
             $doctrine->flush();
-            $this->addFlash('success','Team created succesfully');
+            $this->addFlash('success', 'Team created succesfully');
             return $this->redirectToRoute('listTeams');
         }
         return $this->renderForm('teams/createTeams.html.twig', [
             'form' => $form
         ]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/edit/team/{id}', name: 'editTeam')]
+    public function editTeam(Request $request, EntityManagerInterface $doctrine, $id)
+    {
+        $repository = $doctrine->getRepository(Team::class);
+        $team = $repository->find($id);
+        $form = $this->createForm(TeamType::class, $team);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $team = $form->getData();
+            $doctrine->persist($team);
+            $doctrine->flush();
+            $this->addFlash('success', 'Team edited succesfully');
+            return $this->redirectToRoute('listTeams');
+        }
+        return $this->renderForm('teams/createTeams.html.twig', [
+            'form' => $form
+        ]);
+    }
+
+    #[IsGranted('ROLE_ADMIN')]
+    #[Route('/delete/team/{id}', name: 'deleteTeam')]
+    public function deleteTeam(EntityManagerInterface $doctrine, $id)
+    {
+        $repository = $doctrine->getRepository(Team::class);
+        $team = $repository->find($id);
+        $doctrine->remove($team);
+        $doctrine->flush();
+        $this->addFlash('success', 'Team deleted succesfully');
+        return $this->redirectToRoute('listTeams');
     }
 }

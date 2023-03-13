@@ -6,6 +6,7 @@ use App\Entity\Stadium;
 use App\Entity\Team;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -58,7 +59,7 @@ class TeamType extends AbstractType
                     'placeholder' => 'Enter the Owner Name'
                 )
             ])
-            ->add('logo')
+            ->add('logoImage', FileType::class, ['mapped' => false])
             ->add('stadiums', EntityType::class, [
                 'class' => Stadium::class,
                 'choice_label' => 'name',

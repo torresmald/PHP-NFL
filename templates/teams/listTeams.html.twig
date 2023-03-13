@@ -12,8 +12,10 @@
         <h5 class="card-title">{{ team.name }}</h5>
         <p class="card-text">{{ team.id }}</p>
         <a href="{{ path('showTeam', {id:team.id}) }}" class="btn btn-primary">Más Info</a>
-        {# <a href="{{ path('editPokemon',{id:pokemon.id}) }}" class="btn btn-primary">Editar</a> #}
-        {# <a href="{{ path('deletePokemon',{id:pokemon.id}) }}" class="btn btn-primary">Borrar</a> #}
+        {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('editTeam',{id:team.id}) }}" class="btn btn-success">Edit</a>
+        <a href="{{ path('deleteTeam',{id:team.id}) }}" class="btn btn-danger">Delete</a>
+        {% endif %}
       </div>
     </div>
   </div>
