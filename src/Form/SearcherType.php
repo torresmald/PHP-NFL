@@ -17,7 +17,8 @@ class SearcherType extends AbstractType
                 'class' => Team::class,
                 'choice_label' => 'name',
                 'autocomplete' => 'true',
-                'placeholder' => 'Search your team',
+                'placeholder' => 'Select your team from the dropdown menu
+                ',
                 'attr' => [
                     'onchange' =>   'this.form.submit()'
                 ]

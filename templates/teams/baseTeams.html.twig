@@ -24,6 +24,7 @@
             <a class="btn btn-primary" href="{{ path('insertTeam') }}">Create Team</a>
             <a class="btn btn-success" href="{{ path('app_login') }}">Login</a>
             <a class="btn btn-secondary" href="{{ path('createUser') }}">Register</a>
+            <a class="btn btn-secondary" href="{{ path('createAdmin') }}">Register Admin</a>
 
             {% if is_granted('ROLE_USER') %}
               <a href="{{ path('app_logout') }}" class="btn btn-danger">Logout</a>

@@ -31,7 +31,7 @@ class TeamsController extends AbstractController
 
         return $this -> render("teams/home.html.twig", ['teams' => $teams, 'searchForm'=>$form]);
     }
-
+    #[IsGranted('ROLE_USER')]
     #[Route('/team/{id}', name: 'showTeam')]
     public function showTeam(EntityManagerInterface $doctrine, $id)
     {
