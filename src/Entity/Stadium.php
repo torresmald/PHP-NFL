@@ -21,6 +21,12 @@ class Stadium
     #[ORM\ManyToMany(targetEntity: Team::class, mappedBy: 'stadiums')]
     private Collection $teams;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $link = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $image = null;
+
     public function __construct()
     {
         $this->teams = new ArrayCollection();
@@ -66,6 +72,30 @@ class Stadium
         if ($this->teams->removeElement($team)) {
             $team->removeStadium($this);
         }
+
+        return $this;
+    }
+
+    public function getLink(): ?string
+    {
+        return $this->link;
+    }
+
+    public function setLink(?string $link): self
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(?string $image): self
+    {
+        $this->image = $image;
 
         return $this;
     }

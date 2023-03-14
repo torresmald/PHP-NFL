@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Stadium;
 use App\Entity\Team;
+use App\Form\SearcherType;
 use App\Form\TeamType;
 use App\Manager\TeamManager;
 use Doctrine\ORM\EntityManagerInterface;
@@ -15,6 +16,22 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TeamsController extends AbstractController
 {
+    #[Route("/home", name:"home")]
+    public function home(EntityManagerInterface $doctrine, Request $request){
+
+        $form = $this-> createForm(SearcherType::class);
+        $form-> handleRequest($request);
+        if ($form-> isSubmitted() && $form-> isValid()) {
+            $team = $form -> get('team')->getData();
+            return $this -> redirectToRoute('showTeam', ['id'=>$team->getId()]);
+        }
+
+        $repository = $doctrine->getRepository(Team::class);
+        $teams = $repository->findAll();
+
+        return $this -> render("teams/home.html.twig", ['teams' => $teams, 'searchForm'=>$form]);
+    }
+
     #[Route('/team/{id}', name: 'showTeam')]
     public function showTeam(EntityManagerInterface $doctrine, $id)
     {
@@ -23,14 +40,14 @@ class TeamsController extends AbstractController
         return $this->render('teams/showTeams.html.twig', ['team' => $team]);
     }
     #[Route('/teams', name: 'listTeams')]
-    public function listTeams(EntityManagerInterface $doctrine)
+    public function listTeams(EntityManagerInterface $doctrine, Request $request)
     {
+       
         $repository = $doctrine->getRepository(Team::class);
         $teams = $repository->findAll();
-
         return $this->render('teams/listTeams.html.twig', ['teams' => $teams]);
     }
-    
+
     #[IsGranted('ROLE_ADMIN')]
     #[Route('/insert/teams', name: 'insertTeams')]
     public function newTeam(EntityManagerInterface $doctrine)
@@ -359,130 +376,194 @@ class TeamsController extends AbstractController
 
         $bearsStadium = new Stadium();
         $bearsStadium->setName('Soldier Field');
+        $bearsStadium->setLink('https://en.wikipedia.org/wiki/Soldier_Field');
+        $bearsStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/c/c4/Soldier_Field_Logo.svg/400px-Soldier_Field_Logo.svg.png');
         $bears->addStadium($bearsStadium);
 
         $bengalsStadium = new Stadium();
         $bengalsStadium->setName('Paycor Stadium');
+        $bengalsStadium->setLink('https://en.wikipedia.org/wiki/Paycor_Stadium');
+        $bengalsStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/7/73/Paycor_Stadium_logo.svg/400px-Paycor_Stadium_logo.svg.png');
         $bengals->addStadium($bengalsStadium);
 
         $billsStadium = new Stadium();
         $billsStadium->setName('Highmark Stadium');
+        $billsStadium->setLink('https://en.wikipedia.org/wiki/Highmark_Stadium_(New_York)');
+        $billsStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/a/a3/Highmark_Stadium_%28New_York%29_logo.svg/440px-Highmark_Stadium_%28New_York%29_logo.svg.png');
         $bills->addStadium($billsStadium);
 
         $broncosStadium = new Stadium();
         $broncosStadium->setName('Empower Field at Mile High');
+        $broncosStadium->setLink('https://en.wikipedia.org/wiki/Empower_Field_at_Mile_High');
+        $broncosStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Empower_Field_logo.svg/300px-Empower_Field_logo.svg.png');
         $broncos->addStadium($broncosStadium);
 
         $brownsStadium = new Stadium();
         $brownsStadium->setName('FirstEnergy Stadium');
+        $brownsStadium->setLink('https://en.wikipedia.org/wiki/FirstEnergy_Stadium');
+        $brownsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Firstenergy_stadium_logo_image.svg/400px-Firstenergy_stadium_logo_image.svg.png');
         $browns->addStadium($brownsStadium);
 
         $cardinalsStadium = new Stadium();
         $cardinalsStadium->setName('State Farm Stadium');
+        $cardinalsStadium->setLink('https://en.wikipedia.org/wiki/State_Farm_Stadium');
+        $cardinalsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/State_Farm_Stadium_logo.svg/440px-State_Farm_Stadium_logo.svg.png');
         $cardinals->addStadium($cardinalsStadium);
 
         $chargersStadium = new Stadium();
         $chargersStadium->setName('SoFi Stadium');
+        $chargersStadium->setLink('https://en.wikipedia.org/wiki/SoFi_Stadium');
+        $chargersStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/SoFi_Stadium_Logo.svg/400px-SoFi_Stadium_Logo.svg.png');
         $chargers->addStadium($chargersStadium);
 
         $chiefsStadium = new Stadium();
         $chiefsStadium->setName('Arrowhead Stadium');
+        $chiefsStadium->setLink('https://en.wikipedia.org/wiki/Arrowhead_Stadium');
+        $chiefsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/GEHA_Field_at_Arrowhead.svg/400px-GEHA_Field_at_Arrowhead.svg.png');
         $chiefs->addStadium($chiefsStadium);
 
         $coltsStadium = new Stadium();
         $coltsStadium->setName('Lucas Oil Stadium');
+        $coltsStadium->setLink('https://en.wikipedia.org/wiki/Lucas_Oil_Stadium');
+        $coltsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Lucas_Oil_Stadium_logo.svg/400px-Lucas_Oil_Stadium_logo.svg.png');
         $colts->addStadium($coltsStadium);
 
         $cowboysStadium = new Stadium();
         $cowboysStadium->setName('AT&T Stadium');
+        $cowboysStadium->setLink('https://en.wikipedia.org/wiki/AT%26T_Stadium');
+        $cowboysStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/At%26t_stadium_texas_logo.png/300px-At%26t_stadium_texas_logo.png');
         $cowboys->addStadium($cowboysStadium);
 
         $dolphinsStadium = new Stadium();
         $dolphinsStadium->setName('Hard Rock Stadium');
+        $dolphinsStadium->setLink('https://en.wikipedia.org/wiki/Hard_Rock_Stadium');
+        $dolphinsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hard_rock_stadium_florida_logo.svg/300px-Hard_rock_stadium_florida_logo.svg.png');
         $dolphins->addStadium($dolphinsStadium);
 
         $eaglesStadium = new Stadium();
         $eaglesStadium->setName('Lincoln Financial Field');
+        $eaglesStadium->setLink('https://en.wikipedia.org/wiki/Lincoln_Financial_Field');
+        $eaglesStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/5/50/Lincoln_Financial_Field_logo.svg/400px-Lincoln_Financial_Field_logo.svg.png');
         $eagles->addStadium($eaglesStadium);
 
         $falconsStadium = new Stadium();
         $falconsStadium->setName('Mercedes-Benz Stadium');
+        $falconsStadium->setLink('https://en.wikipedia.org/wiki/Mercedes-Benz_Stadium');
+        $falconsStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/e/ed/Mercedes-Benz_Stadium_logo.svg/300px-Mercedes-Benz_Stadium_logo.svg.png');
         $falcons->addStadium($falconsStadium);
 
         $giantsStadium = new Stadium();
         $giantsStadium->setName('MetLife Stadium');
+        $giantsStadium->setLink('https://en.wikipedia.org/wiki/MetLife_Stadium');
+        $giantsStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/Metlife_Stadium_Logo.svg/300px-Metlife_Stadium_Logo.svg.png');
         $giants->addStadium($giantsStadium);
 
         $jaguarsStadium = new Stadium();
         $jaguarsStadium->setName('TIAA Bank Field');
+        $jaguarsStadium->setLink('https://en.wikipedia.org/wiki/TIAA_Bank_Field');
+        $jaguarsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/2/27/Tiaa_bank_field_jacksonville_logo.png/400px-Tiaa_bank_field_jacksonville_logo.png');
         $jaguars->addStadium($jaguarsStadium);
 
         $jetsStadium = new Stadium();
         $jetsStadium->setName('MetLife Stadium');
+        $jetsStadium->setLink('https://en.wikipedia.org/wiki/MetLife_Stadium');
+        $jetsStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/d/d0/Metlife_Stadium_Logo.svg/300px-Metlife_Stadium_Logo.svg.png');
         $jets->addStadium($jetsStadium);
 
         $lionsStadium = new Stadium();
         $lionsStadium->setName('Ford Field');
+        $lionsStadium->setLink('https://en.wikipedia.org/wiki/Ford_Field');
+        $lionsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/7/78/Ford_field_stadium_logo.svg/400px-Ford_field_stadium_logo.svg.png');
         $lions->addStadium($lionsStadium);
 
         $packersStadium = new Stadium();
         $packersStadium->setName('Lambeau Field');
+        $packersStadium->setLink('https://en.wikipedia.org/wiki/Lambeau_Field');
+        $packersStadium->setImage('https://upload.wikimedia.org/wikipedia/en/thumb/7/77/Lambeau_Field_logo.svg/400px-Lambeau_Field_logo.svg.png');
         $packers->addStadium($packersStadium);
 
         $panthersStadium = new Stadium();
         $panthersStadium->setName('Bank of America Stadium');
+        $panthersStadium->setLink('https://en.wikipedia.org/wiki/Bank_of_America_Stadium');
+        $panthersStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Bank_of_America_Stadium_logo.png/440px-Bank_of_America_Stadium_logo.png');
         $panthers->addStadium($panthersStadium);
 
         $patriotsStadium = new Stadium();
         $patriotsStadium->setName('Gillette Stadium');
+        $patriotsStadium->setLink('https://en.wikipedia.org/wiki/Gillette_Stadium');
+        $patriotsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/f/fa/Gilette_Stadium_Logo.svg/400px-Gilette_Stadium_Logo.svg.png');
         $patriots->addStadium($patriotsStadium);
 
         $raidersStadium = new Stadium();
         $raidersStadium->setName('Allegiant Stadium');
+        $raidersStadium->setLink('https://en.wikipedia.org/wiki/Allegiant_Stadium');
+        $raidersStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Allegiant_stadium_logo_image.svg/400px-Allegiant_stadium_logo_image.svg.png');
         $raiders->addStadium($raidersStadium);
 
         $ramsStadium = new Stadium();
         $ramsStadium->setName('SoFi Stadium');
+        $ramsStadium->setLink('https://en.wikipedia.org/wiki/SoFi_Stadium');
+        $ramsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/55/SoFi_Stadium_Logo.svg/400px-SoFi_Stadium_Logo.svg.png');
         $rams->addStadium($ramsStadium);
 
         $ravensStadium = new Stadium();
         $ravensStadium->setName('M&T Bank Stadium');
+        $ravensStadium->setLink('https://en.wikipedia.org/wiki/M%26T_Bank_Stadium');
+        $ravensStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/M%26T_Bank_Stadium_Logo.svg/300px-M%26T_Bank_Stadium_Logo.svg.png');
         $ravens->addStadium($ravensStadium);
 
         $saintsStadium = new Stadium();
         $saintsStadium->setName('Caesars Superdome');
+        $saintsStadium->setLink('https://en.wikipedia.org/wiki/Caesars_Superdome');
+        $saintsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/Caesars_Superdome_logo.svg/440px-Caesars_Superdome_logo.svg.png');
         $saints->addStadium($saintsStadium);
 
         $seahawsStadium = new Stadium();
         $seahawsStadium->setName('Lumen Field');
+        $seahawsStadium->setLink('https://en.wikipedia.org/wiki/Lumen_Field');
+        $seahawsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Lumen_Field_logo.svg/300px-Lumen_Field_logo.svg.png');
         $seahaws->addStadium($seahawsStadium);
 
         $sf49Stadium = new Stadium();
         $sf49Stadium->setName("Levi's Stadium");
+        $sf49Stadium->setLink('https://en.wikipedia.org/wiki/Levi%27s_Stadium');
+        $sf49Stadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Levi%27s_Stadium_Logo.svg/400px-Levi%27s_Stadium_Logo.svg.png');
         $sf49->addStadium($sf49Stadium);
 
         $steelersStadium = new Stadium();
         $steelersStadium->setName('Acrisure Stadium');
+        $steelersStadium->setLink('https://en.wikipedia.org/wiki/Acrisure_Stadium');
+        $steelersStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/f/f0/Acrisure_Stadium_logo.svg/300px-Acrisure_Stadium_logo.svg.png');
         $steelers->addStadium($steelersStadium);
 
         $tampaStadium = new Stadium();
         $tampaStadium->setName('Raymond James Stadium');
+        $tampaStadium->setLink('https://en.wikipedia.org/wiki/Raymond_James_Stadium');
+        $tampaStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/5/50/Raymond_James_Stadium_logo.svg/440px-Raymond_James_Stadium_logo.svg.png');
         $tampa->addStadium($tampaStadium);
 
         $texansStadium = new Stadium();
         $texansStadium->setName('NRG Stadium');
+        $texansStadium->setLink('https://en.wikipedia.org/wiki/NRG_Stadium');
+        $texansStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/NRG_Stadium_Logo.svg/300px-NRG_Stadium_Logo.svg.png');
         $texans->addStadium($texansStadium);
 
         $titansStadium = new Stadium();
         $titansStadium->setName('Nissan Stadium');
+        $titansStadium->setLink('https://en.wikipedia.org/wiki/Nissan_Stadium');
+        $titansStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/Nissan_Stadium_Logo.svg/400px-Nissan_Stadium_Logo.svg.png');
         $titans->addStadium($titansStadium);
 
         $vikingsStadium = new Stadium();
         $vikingsStadium->setName('U.S. Bank Stadium');
+        $vikingsStadium->setLink('https://en.wikipedia.org/wiki/U.S._Bank_Stadium');
+        $vikingsStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/7/76/US_bank_stadium_minnesota_logo.svg/440px-US_bank_stadium_minnesota_logo.svg.png');
         $vikings->addStadium($vikingsStadium);
 
         $washingtonStadium = new Stadium();
         $washingtonStadium->setName('FedExField');
+        $washingtonStadium->setLink('https://en.wikipedia.org/wiki/FedExField');
+        $washingtonStadium->setImage('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/FedExField_logo.svg/400px-FedExField_logo.svg.png');
         $washington->addStadium($washingtonStadium);
 
         $doctrine->persist($bears);

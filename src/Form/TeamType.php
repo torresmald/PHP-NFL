@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\UX\Dropzone\Form\DropzoneType;
+
 
 class TeamType extends AbstractType
 {
@@ -59,7 +61,7 @@ class TeamType extends AbstractType
                     'placeholder' => 'Enter the Owner Name'
                 )
             ])
-            ->add('logoImage', FileType::class, ['mapped' => false])
+            ->add('logoImage', DropZoneType::class, ['mapped' => false])
             ->add('stadiums', EntityType::class, [
                 'class' => Stadium::class,
                 'choice_label' => 'name',

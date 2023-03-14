@@ -1,10 +1,11 @@
 {% extends 'teams/baseTeams.html.twig' %}
 
 {% block contenido %}
-  <div class="container">
+  <div class="container myTeam">
     <div class="row">
       <div class="col text-center">
-        <h2>{{ team.name }} Nº {{ team.id }}</h2>
+        <h2>ID : {{ team.id }}</h2>
+        <h3>{{ team.name }}</h3>
       </div>
     </div>
     <div class="row">
@@ -12,20 +13,24 @@
         <img src="{{ team.logo }}" />
       </div>
       <div class="col">
-        <div class="row">
-          <div class="col">{{ team.city }}</div>
-          <div class="col">{{ team.headCoach }}</div>
-          <div class="col">{{ team.owner }}</div>
-          <div class="col">{{ team.division }}</div>
-          <div class="col">{{ team.established }}</div>
+        <div class="row teamData">
+          <div class="col">City: {{ team.city }}</div>
+          <div class="col">Head Coach: {{ team.headCoach }}</div>
+          <div class="col">Owner: {{ team.owner }}</div>
+          <div class="col">Division: {{ team.division }}</div>
+          <div class="col">Established: {{ team.established }}</div>
         </div>
-         <div class="row">
-              <ul>
-                {% for stadium in team.stadiums %}
-                <li>{{ stadium.name }}</li>
-                {% endfor %}
-              </ul>
-            </div>
+        <div class="row">
+          <ul>
+            {% for stadium in team.stadiums %}
+              <li class="stadiumName">Stadium: {{ stadium.name }}</li>
+              <li class="stadiumImage">
+                <a href="{{ stadium.link }}" target="_blank"><img src="{{ stadium.image }}" alt="Stadium Logo" /></a>
+              </li>
+            {% endfor %}
+          </ul>
+        </div>
+        <a href="{{ path('listTeams') }}" class="btn btn-primary dark myBtn">BACK</a>
       </div>
     </div>
   </div>

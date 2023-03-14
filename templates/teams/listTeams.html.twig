@@ -1,25 +1,24 @@
 {% extends 'teams/baseTeams.html.twig' %} {% block contenido %}
-{% for message in app.flashes('success') %}
-<p>{{ message }}</p>
-{% endfor %}
-<h2>Listado de Equipos</h2>
-<div class="row row-cols-1 row-cols-md-2">
-  {% for team in teams %}
-  <div class="col mb-4">
-    <div class="card" style="width: 18rem">
-      <img src="{{ team.logo }}" class="card-img-top" />
-      <div class="card-body">
-        <h5 class="card-title">{{ team.name }}</h5>
-        <p class="card-text">{{ team.id }}</p>
-        <a href="{{ path('showTeam', {id:team.id}) }}" class="btn btn-primary">Más Info</a>
-        {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('editTeam',{id:team.id}) }}" class="btn btn-success">Edit</a>
-        <a href="{{ path('deleteTeam',{id:team.id}) }}" class="btn btn-danger">Delete</a>
-        {% endif %}
-      </div>
-    </div>
-  </div>
+  {% for message in app.flashes('success') %}
+    <p>{{ message }}</p>
   {% endfor %}
-</div>
-
+  <h2>TEAM LIST</h2>
+  <div class="row row-cols-1 row-cols-md-2">
+    {% for team in teams %}
+      <div class="col mb-4">
+        <div class="card myCard" style="width: 18rem">
+          <h3 class="card-text ">Nº {{ team.id }}</h3>
+          <img src="{{ team.logo }}" class="card-img-top myImg" />
+          <div class="card-body">
+            <h5 class="card-title">{{ team.name }}</h5>
+            <a href="{{ path('showTeam', { id: team.id }) }}" class="btn btn-primary myBtn">More Info</a>
+            {% if is_granted('ROLE_ADMIN') %}
+              <a href="{{ path('editTeam', { id: team.id }) }}" class="btn btn-success myBtn">Edit</a>
+              <a href="{{ path('deleteTeam', { id: team.id }) }}" class="btn btn-danger myBtn">Delete</a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
 {% endblock %}
